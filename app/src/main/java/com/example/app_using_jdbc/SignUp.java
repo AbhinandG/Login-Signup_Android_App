@@ -102,6 +102,13 @@ public class SignUp extends AppCompatActivity {
 
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(SignUp.this, "Account created!", Toast.LENGTH_SHORT).show();
+            Intent intentzz=new Intent(SignUp.this, MainActivity.class);
+            startActivity(intentzz);
+        }
     }
 }
 
