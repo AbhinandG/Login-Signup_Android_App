@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/user"
+            android:id="@+id/userz"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#FFFFFF"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textForUser">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/pass"
+            android:id="@+id/passz"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#FFFFFF"
@@ -75,9 +75,23 @@
         app:backgroundTint="#D66C6C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textForPass"
-        app:layout_constraintVertical_bias="0.281" />
+        app:layout_constraintVertical_bias="0.283" />
+
+    <Button
+        android:id="@+id/btn_gohome"
+        android:layout_width="135dp"
+        android:layout_height="66dp"
+        android:text="Go Home"
+        app:backgroundTint="#D66C6C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.673"
+        app:layout_constraintStart_toEndOf="@+id/btn_sublog"
+        app:layout_constraintTop_toBottomOf="@+id/textForPass"
+        app:layout_constraintVertical_bias="0.283" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

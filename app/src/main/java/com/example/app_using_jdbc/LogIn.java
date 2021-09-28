@@ -14,6 +14,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
 import static com.example.app_using_jdbc.MainActivity.pass;
@@ -22,9 +23,9 @@ import static com.example.app_using_jdbc.MainActivity.user;
 
 public class LogIn extends AppCompatActivity {
 
-    Button btn_sublog;
+    Button btn_sublog, btn_gohome;
     TextInputEditText textForUser, textForPass;
-    public String user,pass;
+    public String userz,passz;
     public boolean success;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,26 +33,36 @@ public class LogIn extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
         btn_sublog=findViewById(R.id.btn_sublog);
-        textForUser=findViewById(R.id.user);
-        textForPass=findViewById(R.id.pass);
+        textForUser=findViewById(R.id.userz);
+        textForPass=findViewById(R.id.passz);
+        btn_gohome=findViewById(R.id.btn_gohome);
+
+        btn_gohome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intw=new Intent(LogIn.this, MainActivity.class);
+                startActivity(intw);
+            }
+        });
 
         btn_sublog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 success=false;
-                user=String.valueOf(textForUser.getText());
-                pass=String.valueOf(textForPass.getText());
-                ConnectMySQLs connectMySqlzz = new ConnectMySQLs();
+                userz=String.valueOf(textForUser.getText());
+                passz=String.valueOf(textForPass.getText());
+                ConnectMySQL connectMySqlzz = new ConnectMySQL();
                 connectMySqlzz.execute("");
 
             }
         });
     }
 
-    public class ConnectMySQLs extends AsyncTask<String,Void,String>
+    private class ConnectMySQL extends AsyncTask<String,Void,String>
     {
 
-        String res="";
+        String resz="";
+
 
         @Override
         protected void onPreExecute() {
@@ -64,37 +75,45 @@ public class LogIn extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            res="";
             try {
+                resz="";
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con= DriverManager.getConnection(url,user,pass);
                 System.out.println("Database connection success!");
 
-                String result="Database connection successful\n";
+                String result="";
                 Statement st=con.createStatement();
 
-                ResultSet rs=st.executeQuery("SELECT * FROM info_users_table WHERE USERNAME="+user+"AND PASSWORD="+pass);
-                if(rs.next())
+                ResultSet rs=st.executeQuery("SELECT * FROM `info_users_table` WHERE `USERNAME` LIKE '"+userz+"' AND `PASSWORD` LIKE '"+passz+"'");
+
+                ResultSetMetaData rsmd = rs.getMetaData();
+                while(rs.next())
                 {
                     success=true;
+                    result+=rs.getString(1).toString();
                 }
-                res=result;
+                resz=result;
             } catch(Exception e)
             {
                 e.printStackTrace();
-                res=e.toString();
+                resz=e.toString();
             }
-            return res;
+            return resz;
 
         }
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(success)
+            System.out.println(s);
+            super.onPreExecute();
+            if(success==true)
             {
                 System.out.println("Account exists!!");
-                Toast.makeText(LogIn.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LogIn.this, "Login Successful! Welcome back "+s, Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(LogIn.this, "Invalid credentials!!", Toast.LENGTH_SHORT).show();
             }
         }
     }
