@@ -110,6 +110,8 @@ public class LogIn extends AppCompatActivity {
             {
                 System.out.println("Account exists!!");
                 Toast.makeText(LogIn.this, "Login Successful! Welcome back "+s, Toast.LENGTH_SHORT).show();
+                Intent finalintent=new Intent(LogIn.this, FinalPage.class);
+                startActivity(finalintent);
             }
             else
             {
